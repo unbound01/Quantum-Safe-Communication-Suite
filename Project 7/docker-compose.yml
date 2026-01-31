@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # PQC Email Gateway (Go)
+  pqc-gateway:
+    build: ./gateway
+    ports:
+      - "${GATEWAY_PORT:-2525}:2525"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - RECEIPTS_URL=http://receipts:6000
+    volumes:
+      - ./demo-data:/app/demo-data:ro
+    networks:
+      - quantum-net
+    depends_on:
+      - postfix
+      - dovecot
+      - receipts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2525/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Postfix mail server
+  postfix:
+    image: boky/postfix
+    environment:
+      - DOMAIN=${MAIL_DOMAIN:-localhost}
+      - ALLOWED_SENDER_DOMAINS=${MAIL_DOMAIN:-localhost}
+    networks:
+      - quantum-net
+    restart: unless-stopped
+
+  # Dovecot IMAP server
+  dovecot:
+    image: instrumentisto/dovecot
+    networks:
+      - quantum-net
+    restart: unless-stopped
+
+  # PQC PDF Signer (Python, FastAPI)
+  signer:
+    build: ./signer
+    ports:
+      - "${SIGNER_PORT:-5000}:5000"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - RECEIPTS_URL=http://receipts:6000
+    volumes:
+      - ./demo-data:/app/demo-data:ro
+      - signer-output:/app/signed
+    networks:
+      - quantum-net
+    depends_on:
+      - receipts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Immutable Receipts Service (Python, FastAPI/Flask)
+  receipts:
+    build: ./receipts
+    ports:
+      - "${RECEIPTS_PORT:-6000}:6000"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - DATABASE_PATH=/app/data/receipts.db
+    volumes:
+      - receipts-data:/app/data
+    networks:
+      - quantum-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      
+  # Monitoring Dashboard
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "${DASHBOARD_PORT:-8080}:8080"
+    environment:
+      - GATEWAY_URL=http://pqc-gateway:2525
+      - SIGNER_URL=http://signer:5000
+      - RECEIPTS_URL=http://receipts:6000
+      - REFRESH_INTERVAL=${DASHBOARD_REFRESH:-5}
+    depends_on:
+      - pqc-gateway
+      - signer
+      - receipts
+    networks:
+      - quantum-net
+    restart: unless-stopped
+
+networks:
+  quantum-net:
+    driver: bridge
+
+volumes:
+  receipts-data:
+    name: ${RECEIPTS_VOLUME:-receipts-data}
+  signer-output:
+    name: ${SIGNER_VOLUME:-signer-output}

@@ -1,0 +1,34 @@
+From: secretary@demo.nic.in
+To: director@demo.nic.in
+Subject: Confidential: Implementation of Quantum-Safe Communication Infrastructure
+Date: Mon, 18 Aug 2025 10:30:45 +0530
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+RESPECTED DIRECTOR,
+
+REF: F.No.12-34/2025-QSC
+
+With reference to the Ministry of Electronics and Information Technology (MeitY) directive dated 15th July 2025 regarding the implementation of Post-Quantum Cryptography (PQC) standards across all government communications, I am pleased to inform you that our department has successfully completed the pilot deployment of the Unified Quantum-Safe Communication Suite.
+
+The implementation includes:
+
+1. PQC Email Gateway with hybrid TLS (X25519 + ML-KEM768)
+2. PQC PDF Signer using ML-DSA (Dilithium)
+3. Immutable Receipts Service for non-repudiation
+
+As per the directive, all sensitive communications must transition to quantum-resistant algorithms by December 2025. Our successful pilot demonstrates readiness for full-scale deployment.
+
+A detailed report will be presented at the upcoming Inter-Departmental Cybersecurity Meeting scheduled for 25th August 2025.
+
+Kindly acknowledge receipt of this communication.
+
+Regards,
+
+Joint Secretary
+Department of Quantum-Safe Communications
+Government of India
+
+--
+This email is protected by Quantum-Safe Encryption
+CONFIDENTIALITY NOTICE: This transmission is intended only for the addressee and may contain confidential information.

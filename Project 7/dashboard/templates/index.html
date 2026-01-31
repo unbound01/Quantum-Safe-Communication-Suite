@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum-Safe Communication Suite - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta http-equiv="refresh" content="{{ refresh_interval }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quantum-Safe Communication Suite</h1>
+            <div class="subtitle">Real-time Monitoring Dashboard</div>
+        </header>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon email-icon">📧</div>
+                <div class="stat-value" id="emails-sent">0</div>
+                <div class="stat-label">Emails Sent</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon pdf-icon">📄</div>
+                <div class="stat-value" id="pdfs-signed">0</div>
+                <div class="stat-label">PDFs Signed</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon receipt-icon">🔐</div>
+                <div class="stat-value" id="receipts-generated">0</div>
+                <div class="stat-label">Receipts Generated</div>
+            </div>
+        </div>
+        
+        <div class="services-container">
+            <h2>Service Status</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-name">PQC Gateway</div>
+                    <div class="service-status" id="gateway-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-name">PDF Signer</div>
+                    <div class="service-status" id="signer-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-name">Receipts Service</div>
+                    <div class="service-status" id="receipts-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recent-activity">
+            <h2>System Information</h2>
+            <div class="info-container">
+                <div class="info-item">
+                    <span class="info-label">Last Updated:</span>
+                    <span class="info-value" id="last-updated">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Dashboard Refresh:</span>
+                    <span class="info-value">{{ refresh_interval }} seconds</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Unified Quantum-Safe Communication Suite - SIH Demo</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
