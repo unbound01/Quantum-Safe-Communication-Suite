@@ -42,7 +42,7 @@ The system consists of the following components:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/quantum-safe-suite.git
+git clone https://github.com/unbound01/quantum-safe-suite.git
 cd quantum-safe-suite
 ```
 
